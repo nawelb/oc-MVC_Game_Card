@@ -3,6 +3,7 @@ package fr.nawelbp.card_game.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.nawelbp.card_game.game.GameEvaluator;
 import fr.nawelbp.card_game.model.Deck;
 import fr.nawelbp.card_game.model.Player;
 import fr.nawelbp.card_game.model.PlayingCard;
@@ -20,14 +21,16 @@ public class GameController {
 	Player winner;
 	View view;
 	GameState gameState;
+	GameEvaluator gameEvaluator;
 	
-	public GameController (Deck deck, View view) {
+	public GameController (Deck deck, View view, GameEvaluator evaluator) {
 		super();
 		this.deck = deck;
 		this.view = view;
 		this.players=new ArrayList<Player>();
 		this.gameState=GameState.AddingPlayers;
 		view.setController(this);
+		this.gameEvaluator=evaluator;
 	}
 	
 	public void run() {
@@ -64,6 +67,9 @@ public class GameController {
 		this.run();
 	}
 	
+	void evaluateWinner() {
+		winner=gameEvaluator.evaluateWinner(players);
+	}
 	public void flipCards() {
 		for (Player player : players) {
 			PlayingCard pc = player.getCard(0);
@@ -80,40 +86,7 @@ public class GameController {
 		this.run();
 	}
 
-	void evaluateWinner() {
-		Player bestPlayer = null;
-		int bestRank = -1;
-		int bestSuit = -1;
-
-		for (Player player : players) {
-			boolean newBestPlayer = false;
-
-			if (bestPlayer == null) {
-				newBestPlayer = true;
-			} else {
-				PlayingCard pc = player.getCard(0);
-				int thisRank = pc.getRank().value();
-				if (thisRank >= bestRank) {
-					if (thisRank > bestRank) {
-						newBestPlayer = true;
-					} else {
-						if (pc.getSuit().value() > bestSuit) {
-							newBestPlayer = true;
-						}
-					}
-				}
-			}
-
-			if (newBestPlayer) {
-				bestPlayer = player;
-				PlayingCard pc = player.getCard(0);
-				bestRank = pc.getRank().value();
-				bestSuit = pc.getSuit().value();
-			}
-		}
-
-		winner = bestPlayer;
-	}
+	
 
 	void displayWinner() {
 		view.showWinner(winner.getName());
