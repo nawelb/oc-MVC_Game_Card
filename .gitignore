@@ -1,6 +1,6 @@
 HELP.md
-#target/
-target/classes/
+target/
+target/*
 target/generated-sources/
 target/generated-test-sources/
 target/maven-archiver/
@@ -16,7 +16,7 @@ target/test-classes/
 .classpath
 .factorypath
 .project
-.settings
+.settings/
 .springBeans
 .sts4-cache
 
