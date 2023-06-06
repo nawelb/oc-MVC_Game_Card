@@ -12,9 +12,11 @@ public class Game
 {
 	
     public static void main( String[] args ){
+        GameSwingView gsv=new GameSwingView();
+        gsv.createAndShowGUI();
         
     	//GameController gameController = new GameController(new Deck(), new View(), new HighCardGameEvaluator());
-    	GameController gameController = new GameController(new Deck(), new View(), new LowCardGameEvaluator());
+    	GameController gameController = new GameController(new Deck(), gsv , new LowCardGameEvaluator());
         gameController.run();
     }
 }

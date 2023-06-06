@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import fr.nawelbp.card_game.game.GameEvaluator;
+import fr.nawelbp.card_game.game.GameViewable;
 import fr.nawelbp.card_game.model.Deck;
 import fr.nawelbp.card_game.model.Player;
 import fr.nawelbp.card_game.model.PlayingCard;
@@ -19,11 +20,22 @@ public class GameController {
 	Deck deck;
 	List<Player> players;
 	Player winner;
-	View view;
+	//View view;
+	GameViewable view;
 	GameState gameState;
 	GameEvaluator gameEvaluator;
 	
-	public GameController (Deck deck, View view, GameEvaluator evaluator) {
+//	public GameController (Deck deck, View view, GameEvaluator evaluator) {
+//		super();
+//		this.deck = deck;
+//		this.view = view;
+//		this.players=new ArrayList<Player>();
+//		this.gameState=GameState.AddingPlayers;
+//		view.setController(this);
+//		this.gameEvaluator=evaluator;
+//	}
+	
+	public GameController (Deck deck, GameViewable view, GameEvaluator evaluator) {
 		super();
 		this.deck = deck;
 		this.view = view;
@@ -32,7 +44,6 @@ public class GameController {
 		view.setController(this);
 		this.gameEvaluator=evaluator;
 	}
-	
 	public void run() {
 		while(gameState== GameState.AddingPlayers) {
 			view.promptPlayerName();
@@ -95,6 +106,18 @@ public class GameController {
 	void rebuildDeck() {
 		for (Player player : players) {
 			deck.returnCardToDeck(player.removeCard());
+		}
+	}
+	void exitGame() {
+		System.exit(0);
+	}
+
+	public void nextAction(String nextChoice) {
+		if("+q".equalsIgnoreCase(nextChoice)) {
+			exitGame();
+		}
+		else {
+			startGame();
 		}
 	}
 }

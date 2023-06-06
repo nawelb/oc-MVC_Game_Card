@@ -3,8 +3,9 @@ package fr.nawelbp.card_game.view;
 import java.util.Scanner;
 
 import fr.nawelbp.card_game.controller.GameController;
+import fr.nawelbp.card_game.game.GameViewable;
 
-public class View {
+public class View implements GameViewable {
 	
 		GameController controller;
 		Scanner keyboard = new Scanner(System.in);
@@ -27,9 +28,10 @@ public class View {
 			controller.flipCards();
 		}
 		public void promptForNewGame() {
-			System.out.println("Press enter to deal again");
-			keyboard.nextLine();
-			controller.startGame();
+			System.out.println("Press enter to deal again or q to exit");
+			controller.nextAction(keyboard.nextLine());
+			//keyboard.nextLine();
+			//controller.startGame();
 			
 		}
 		public void showPlayerName(int playerIndex, String playerName) {
